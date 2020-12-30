@@ -5,7 +5,7 @@
 #include <iostream>
 
 #define CONFIGURU_IMPLEMENTATION 1
-#define TARGET_WEB_DIR_NAME "/home/tinyoh/develop/xunit/build/bin/res/paramsserverweb"
+#define TARGET_WEB_DIR_NAME "/home/tinyoh/develop/to_cvpipeline/res/web_root"
 #define CONFIGURU_JSON_PARSE_ERROR_LOG ""
 #define CACHE_MAX_SIZE (128*1024)
 #define STATUS_DISPLAY_TIME_INTERVAL 1000
@@ -93,6 +93,12 @@ static char cache[CACHE_MAX_SIZE];
     cfg["target_parm_index"].set_hiden(true);
     you also can use the index in code as useral. but on http web , wen can only set the value by add object and value.
     #define CONFIG_HIDEN_PARAM is the feature enable switch.
+
+ *  forbidden code like this
+     cfg_ctrl["a"].add_callback([] {             auto cfg_ctrl = ParamsServer::instance()-> getCtrlRoot();    cfg_ctrl["b"] << ...;            })
+     cfg_ctrl["b"].add_callback([] {             auto cfg_ctrl = ParamsServer::instance()-> getCtrlRoot();    cfg_ctrl["a"] << ...;            })
+     a block loop will occur when you do the logic like this.
+
 *exp ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
@@ -262,9 +268,7 @@ public:
         }
 
         mg_set_protocol_http_websocket(nc);
-        QString path = TARGET_WEB_DIR_NAME;
-        QByteArray th= path.toLatin1();
-        s_http_server_opts.document_root = th.data();
+        s_http_server_opts.document_root = TARGET_WEB_DIR_NAME;
 
         if (mg_stat(s_http_server_opts.document_root, &st) != 0)
         {
@@ -298,8 +302,7 @@ public:
     }
 };
 
-ParameterServer::ParameterServer(QObject *parent) :
-QObject(parent),
+ParameterServer::ParameterServer() :
 m_ServerThreadContext(nullptr),
 m_ServerThread(nullptr)
 {

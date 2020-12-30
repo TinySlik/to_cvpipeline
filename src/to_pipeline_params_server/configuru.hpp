@@ -646,8 +646,8 @@ namespace configuru
 		/// Check if an object has a specific object key , if not, create it.
 		bool judge_or_create_key(const std::string& key);
 
-                /// Check if an object has a specific object key , if not, create it.
-                Config &Config::judge_with_create_key(const std::string& key);
+        /// Check if an object has a specific object key , if not, create it.
+        Config &judge_with_create_key(const std::string& key);
 
 		/// Like has_key, but STL compatible.
 		size_t count(const std::string& key) const { return has_key(key) ? 1 : 0; }

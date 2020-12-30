@@ -33,7 +33,7 @@ char *urlDecode(const char *str)
                     eStr[1] = dStr[i+2];
 
                     /* convert it to decimal */
-                    long int x = strtol(eStr, NULL, 16);
+                    long int x = strtol(eStr, nullptr, 16);
 
                     /* remove the hex */
                     memmove(&dStr[i+1], &dStr[i+3], strlen(&dStr[i+3])+1);

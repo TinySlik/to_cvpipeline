@@ -1,7 +1,7 @@
-add_definitions(-DPARAMSSERV_LIBRARY)
+cmake_minimum_required (VERSION 2.8.0)
 
-add_library_qt(paramsserver
-        parameterserver.cpp
-        urldecode.cpp
-        mongoose.c
-    )
+add_library(paramserv  SHARED
+                         mongoose.c 
+                         parameterserver.cpp
+                         urldecode.cpp
+                         )

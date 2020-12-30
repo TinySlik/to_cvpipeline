@@ -1,8 +1,6 @@
 #ifndef PARAMETERSERVER_H
 #define PARAMETERSERVER_H
 
-#include "paramsserver_global.h"
-#include <QObject>
 #include "configuru.hpp"
 #include "simplethread.h"
 #include <mutex>
@@ -13,12 +11,10 @@
 #include <atomic>
 #include <iostream>
 
-class PARAMSSERVERSHARED_EXPORT ParameterServer : public QObject
+class ParameterServer
 {
-    Q_OBJECT
-    Q_DISABLE_COPY(ParameterServer)
 private:
-    explicit ParameterServer(QObject *parent = nullptr);
+    explicit ParameterServer();
     ~ParameterServer() {
         stop_server();
     }
