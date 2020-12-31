@@ -102,8 +102,7 @@ static char cache[CACHE_MAX_SIZE];
 *exp ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-static void handle_get_device_usage(struct mg_connection *nc)
-{
+static void handle_get_device_usage(struct mg_connection *nc) {
     // Use chunked encoding in order to avoid calculating Content-Length
     mg_printf(nc, "%s", "HTTP/1.1 200 OK\r\nTransfer-Encoding: chunked\r\n\r\n");
 
@@ -213,8 +212,7 @@ typedef enum
     STOP
 } ThreadState;
 
-class ServerThread : public Runnable
-{
+class ServerThread : public Runnable {
 private:
     std::mutex mmutex;
     Condition *condition;
@@ -223,17 +221,17 @@ private:
     int id;
 
 public:
-    ServerThread(int id){
+    ServerThread(int id) {
         this->id=id;
         condition=new Condition(mmutex);
     }
-    ~ServerThread(){
+    ~ServerThread() {
         delete condition;
     }
-    int getId(){
+    int getId() {
         return id;
     }
-    void setState(ThreadState nState){
+    void setState(ThreadState nState) {
         {
         Synchronized x(mmutex);
         requestedState=nState;

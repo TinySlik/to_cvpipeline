@@ -11,8 +11,7 @@
 #include <atomic>
 #include <iostream>
 
-class ParameterServer
-{
+class ParameterServer {
 private:
     explicit ParameterServer();
     ~ParameterServer() {
@@ -31,8 +30,7 @@ public:
         _cfgRoot.judge_or_create_key("dev_ctrl");
         return _cfgRoot["dev_ctrl"];
     }
-    static ParameterServer *instance()
-    {
+    static ParameterServer *instance() {
         static ParameterServer *_this = nullptr;
         if (_this == nullptr)
         {
