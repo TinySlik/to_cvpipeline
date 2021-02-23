@@ -1228,6 +1228,10 @@ namespace configuru
 	/// Writes the config to a file. Like dump_string, but can may also call CONFIGURU_ONERROR
 	/// if it fails to write to the given path.
 	void dump_file(const std::string& path, const Config& config, const FormatOptions& options);
+	/// Writes the config to a file. Like dump_string, but can may also call CONFIGURU_ONERROR
+	/// if it fails to write to the given path.
+	/// add context on end TinyOh add.
+	void dump_file_add(const std::string& path, const Config& config, const FormatOptions& options);
 
 	// ----------------------------------------------------------
 	// Automatic (de)serialize of most things.
@@ -4091,10 +4095,29 @@ namespace configuru
 		}
 	}
 
+	static void write_text_file_a(const char* path, const std::string& data)
+	{
+		auto fp = fopen(path, "ab");
+		if (fp == nullptr) {
+			CONFIGURU_ONERROR(std::string("Failed to open '") + path + "' for writing: " + strerror(errno));
+		}
+		auto num_bytes_written = fwrite(data.data(), 1, data.size(), fp);
+		fclose(fp);
+		if (num_bytes_written != data.size()) {
+			CONFIGURU_ONERROR(std::string("Failed to write to '") + path + "': " + strerror(errno));
+		}
+	}
+
 	void dump_file(const std::string& path, const configuru::Config& config, const FormatOptions& options)
 	{
 		auto str = dump_string(config, options);
 		write_text_file(path.c_str(), str);
+	}
+
+	void dump_file_add(const std::string& path, const configuru::Config& config, const FormatOptions& options)
+	{
+		auto str = dump_string(config, options);
+		write_text_file_a(path.c_str(), str);
 	}
 } // namespace configuru
 
